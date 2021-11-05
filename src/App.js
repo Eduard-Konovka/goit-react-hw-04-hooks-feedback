@@ -28,7 +28,7 @@ class App extends Component {
     const positivePercentage = this.countpositivePercentagePercentage();
 
     return (
-      <Container title="Виджет отзывов">
+      <Container title="Reviews widget">
         <Section title="Please leave feedback">
           <FeedbackOptions
             options={Object.keys(this.state)}
