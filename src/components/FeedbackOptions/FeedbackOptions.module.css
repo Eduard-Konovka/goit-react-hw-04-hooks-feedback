@@ -1,7 +1,7 @@
 .box {
   display: flex;
   border-radius: 4px;
-  background-color: rgb(236, 226, 218);
+  background-color: #fff8f5;
 }
 
 .btn {
