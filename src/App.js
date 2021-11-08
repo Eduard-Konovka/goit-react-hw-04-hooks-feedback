@@ -13,7 +13,10 @@ class App extends Component {
     bad: 0,
   };
 
-  setStatistics = option => this.setState({ [option]: this.state[option] + 1 });
+  setStatistics = option =>
+    this.setState(prevState => ({ [option]: prevState[option] + 1 }));
+
+  // setStatistics = option => this.setState({ [option]: this.state[option] + 1 });
 
   countTotalFeedback = () =>
     Object.values(this.state).reduce((acc, value) => acc + value, 0);
