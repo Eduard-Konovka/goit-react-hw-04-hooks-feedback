@@ -1,60 +1,63 @@
-import { Component } from 'react';
-import Container from './components/Container';
-import Section from './components/Section';
-import FeedbackOptions from './components/FeedbackOptions';
-import Statistics from './components/Statistics';
-import Notification from './components/Notification';
+import { useState } from 'react';
+import Container from './components/Container/Container';
+import Section from './components/Section/Section';
+import FeedbackOptions from './components/FeedbackOptions/FeedbackOptions';
+import Statistics from './components/Statistics/Statistics';
+import Notification from './components/Notification/Notification';
 import './App.css';
 
-class App extends Component {
-  state = {
-    good: 0,
-    neutral: 0,
-    bad: 0,
+export default function App() {
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
+
+  const setStatistics = option => {
+    switch (option) {
+      case 'good':
+        setGood(prevState => prevState + 1);
+        break;
+
+      case 'neutral':
+        setNeutral(prevState => prevState + 1);
+        break;
+
+      case 'bad':
+        setBad(prevState => prevState + 1);
+        break;
+
+      default:
+        return;
+    }
   };
 
-  setStatistics = option =>
-    this.setState(prevState => ({ [option]: prevState[option] + 1 }));
+  const countTotalFeedback = () =>
+    [good, neutral, bad].reduce((acc, value) => acc + value, 0);
 
-  // setStatistics = option => this.setState({ [option]: this.state[option] + 1 });
+  const countpositivePercentagePercentage = () =>
+    `${Math.round((good / countTotalFeedback()) * 100)}%`;
 
-  countTotalFeedback = () =>
-    Object.values(this.state).reduce((acc, value) => acc + value, 0);
+  return (
+    <Container title="Reviews widget">
+      <Section title="Please leave feedback">
+        <FeedbackOptions
+          options={['good', 'neutral', 'bad']}
+          onLeaveFeedback={setStatistics}
+        />
+      </Section>
 
-  countpositivePercentagePercentage = () =>
-    `${Math.round((this.state.good / this.countTotalFeedback()) * 100)}%`;
-
-  render() {
-    const { good, neutral, bad } = this.state;
-    const statistics = this.setStatistics;
-    const total = this.countTotalFeedback();
-    const positivePercentage = this.countpositivePercentagePercentage();
-
-    return (
-      <Container title="Reviews widget">
-        <Section title="Please leave feedback">
-          <FeedbackOptions
-            options={Object.keys(this.state)}
-            onLeaveFeedback={statistics}
+      <Section title="Statistics">
+        {countTotalFeedback() ? (
+          <Statistics
+            good={good}
+            neutral={neutral}
+            bad={bad}
+            total={countTotalFeedback()}
+            positivePercentage={countpositivePercentagePercentage()}
           />
-        </Section>
-
-        <Section title="Statistics">
-          {total ? (
-            <Statistics
-              good={good}
-              neutral={neutral}
-              bad={bad}
-              total={total}
-              positivePercentage={positivePercentage}
-            />
-          ) : (
-            <Notification message="No feedback given" />
-          )}
-        </Section>
-      </Container>
-    );
-  }
+        ) : (
+          <Notification message="No feedback given" />
+        )}
+      </Section>
+    </Container>
+  );
 }
-
-export default App;

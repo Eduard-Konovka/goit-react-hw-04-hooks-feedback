@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
 import s from './FeedbackOptions.module.css';
 
-const FeedbackOptions = ({options, onLeaveFeedback }) => {
+export default function FeedbackOptions({ options, onLeaveFeedback }) {
   return (
     <div className={s.box}>
       {options.map(option => (
         <button
           type="button"
-          key={option} 
+          key={option}
           className={s.btn}
           onClick={() => onLeaveFeedback(option)}
         >
@@ -16,11 +16,9 @@ const FeedbackOptions = ({options, onLeaveFeedback }) => {
       ))}
     </div>
   );
-};
+}
 
 FeedbackOptions.propTypes = {
   options: PropTypes.array.isRequired,
   onLeaveFeedback: PropTypes.func.isRequired,
 };
-
-export default FeedbackOptions;
